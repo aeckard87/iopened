@@ -22,29 +22,41 @@
 
 import RPi.GPIO as GPIO
 
-FRONT_DOOR = 13
-BACK_DOOR = 15
 
-chan_list = [FRONT_DOOR,BACK_DOOR]
+#HANDLE EVENT
+def my_callback(channel):
+    if GPIO.input(channel):
+        print "{} opened!".format(locations.get(channel, "none"))
+    else:
+        print "{} closed!".format(locations.get(channel, "none"))
+        
+# INIT VALUES
+chan_list = []
+locations = {
+		13 : "Front Door",
+		15 : "Back Door"
+	}
 
+for key, value in locations.items():
+    chan_list.append(key)
+
+
+#SETUP GPIO
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(chan_list, GPIO.IN)
 
-#print(GPIO.input(FRONT_DOOR))
-GPIO.add_event_detect(FRONT_DOOR, GPIO.FALLING)  # add rising edge detection on a channel
-GPIO.add_event_detect(BACK_DOOR, GPIO.FALLING)  # add rising edge detection on a channel
+for key, value in locations.items():
+    GPIO.add_event_detect(key, GPIO.BOTH, callback=my_callback)
+
+
+#KEEP ON RUNNING!
 while True:
     try:
-        for channel in chan_list:
-            if GPIO.event_detected(channel):
-                if GPIO.input(channel):
-                    print "{} closed".format(channel)
-                else:
-                    print "{} opened".format(channel)
+        pass
 
     except KeyboardInterrupt:
         stored_exception=sys.exc_info()
-
+#EXIT
 if stored_exception:
     print("Forcably Closing App! Cleaning up...")
 
