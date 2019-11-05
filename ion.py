@@ -27,3 +27,4 @@ if stored_exception:
 GPIO.cleanup()
 
 print("Cleaning completed.")
+exit(1)
