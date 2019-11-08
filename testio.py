@@ -2,25 +2,26 @@ import RPi.GPIO as GPIO
 
 pins = [13,15]
 
-print 'RASPBERRY INFO:'
-for key, value in GPIO.RPI_INFO.iteritems():
-    print '\t{}: {}'.format(key,value)
+print('RASPBERRY INFO:')
+for key, value in GPIO.RPI_INFO.items():
+    print('\t{}: {}'.format(key,value))
 
-print 'RPi.GIPO INFO:'
+print ('RPi.GIPO INFO:')
 
-print '\tVersion: {}'.format(GPIO.VERSION)
+print ('\tVersion: {}'.format(GPIO.VERSION))
 
 mode = GPIO.getmode()
 if mode == None:
     GPIO.setmode(GPIO.BOARD)
     mode = GPIO.getmode()
 
-print '\tMODE: {}'.format(mode)
+print ('\tMODE: {}'.format(mode))
 
 GPIO.setup(pins, GPIO.IN)
 
-print 'PINS'
+print ('PINS')
 for pin in pins:
-    print '\t{}: {}'.format(pin, GPIO.gpio_function(pin))
+    print ('\t{}: {}'.format(pin, GPIO.gpio_function(pin)))
 
 GPIO.cleanup(pins)
+
